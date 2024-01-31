@@ -4,7 +4,7 @@ package Utilities;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
 import com.microsoft.playwright.Browser;
-import com.microsoft.playwright.BrowserType;
+import com.microsoft.playwright.BrowserType.LaunchOptions;
 import com.microsoft.playwright.Playwright;
 
 import Keywords.TestReport;
@@ -15,34 +15,41 @@ public class BrowserConfig extends ParentUtilities {
 		
 		Playwright playwright = Playwright.create();
 		Browser browser = null;
-		boolean headless;
+		LaunchOptions lp = new LaunchOptions();
 		
 		if(System.getProperty("Headless Execution").equalsIgnoreCase("Yes")) {
 			
-			headless=true;
+			lp.setHeadless(true);
 			TestReport.Pass(logger, Status.INFO, "Headless Execution Initiated Successfully");
 		}	
 		else {
-			headless=false;
+			lp.setHeadless(false);
 			TestReport.Pass(logger, Status.INFO, "Headful Execution Initiated Successfully");
 		}
 			
-		
 		if(BrowserType.equalsIgnoreCase("Chrome")){
 			TestReport.Log(logger, Status.INFO, "Launching Chrome Browser.....");
-			browser= playwright.chromium().launch(new BrowserType.LaunchOptions().setChannel("chrome").setHeadless(headless));
+			lp.setChannel("chrome");
+			browser= playwright.chromium().launch(lp);
 			TestReport.Pass(logger, Status.INFO, "Chrome Browser Launched Successfully");
+			
+		}
+		else if(BrowserType.equalsIgnoreCase("Edge")) {
+			TestReport.Log(logger, Status.INFO, "Launching Edge Browser.....");
+			lp.setChannel("msedge");
+			browser= playwright.firefox().launch(lp);
+			TestReport.Pass(logger, Status.INFO, "Edge Browser Launched Successfully");
 			
 		}
 		else if(BrowserType.equalsIgnoreCase("Firefox")) {
 			TestReport.Log(logger, Status.INFO, "Launching Firefox Browser.....");
-			browser= playwright.firefox().launch();
+			browser= playwright.firefox().launch(lp);
 			TestReport.Pass(logger, Status.INFO, "Firefox Browser Launched Successfully");
 			
 		}
 		else if(BrowserType.equalsIgnoreCase("Safari")) {
 			TestReport.Log(logger, Status.INFO, "Launching Safari Browser.....");
-			browser= playwright.webkit().launch();
+			browser= playwright.webkit().launch(lp);
 			TestReport.Pass(logger, Status.INFO, "Safari Browser Launched Successfully");
 			
 		}
