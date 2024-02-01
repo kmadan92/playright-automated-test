@@ -1,5 +1,7 @@
 package Utilities;
 
+import java.nio.file.Paths;
+
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
@@ -8,6 +10,7 @@ import com.microsoft.playwright.Browser;
 import com.microsoft.playwright.BrowserContext;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.Playwright;
+import com.microsoft.playwright.Tracing;
 
 import Keywords.TestReport;
 
@@ -20,6 +23,7 @@ public class WrapperUtilities {
 	public  ThreadLocal<Browser> browser;
 	public  ThreadLocal<BrowserContext> browser_context;
 	public  ThreadLocal<Page> tab;
+	public  String TracesDirectory = System.getProperty("user.dir")+"\\Traces";
 	
 	
 	BrowserConfig browser_config = new BrowserConfig();
@@ -80,6 +84,37 @@ public class WrapperUtilities {
 			e.printStackTrace();
 			TestReport.Fail(logger, Status.FAIL, ExceptionUtil.getStackTrace(e));
 		}
+		
+	}
+	
+	public void StartRecording(ThreadLocal<BrowserContext> browser_context, ThreadLocal<ExtentTest> logger) {
+		
+		try {
+			
+			browser_context.get().tracing().start(new Tracing.StartOptions()
+					  .setScreenshots(true)
+					  .setSnapshots(true)
+					  .setSources(true));
+			
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+			TestReport.Fail(logger, Status.FAIL, ExceptionUtil.getStackTrace(e));
+		}
+	}
+	
+	public void StopRecording(ThreadLocal<BrowserContext> browser_context, String TestName, ThreadLocal<ExtentTest> logger) {
+			
+			try {
+				
+				browser_context.get().tracing().stop(new Tracing.StopOptions()
+						  .setPath(Paths.get(TracesDirectory+"\\"+TestName)));
+				
+			}catch(Exception e)
+			{
+				e.printStackTrace();
+				TestReport.Fail(logger, Status.FAIL, ExceptionUtil.getStackTrace(e));
+			}
 		
 	}
 	
