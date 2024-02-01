@@ -4,19 +4,19 @@ package Utilities;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
 import com.microsoft.playwright.Browser;
+import com.microsoft.playwright.BrowserContext;
 import com.microsoft.playwright.BrowserType.LaunchOptions;
+import com.microsoft.playwright.Page;
 import com.microsoft.playwright.Playwright;
 
 import Keywords.TestReport;
 
 public class BrowserConfig extends ParentUtilities {
 	
-	@SuppressWarnings("null")
+	
 	public static Browser getBrowser(String BrowserType, ThreadLocal<ExtentTest> logger) {
 		
-		ThreadLocal<Playwright> playwright = null;
 		playwright.set(Playwright.create());
-		ThreadLocal<Browser> browser = null;
 		LaunchOptions lp = new LaunchOptions();
 		
 		if(System.getProperty("Headless Execution").equalsIgnoreCase("Yes")) {
@@ -61,5 +61,20 @@ public class BrowserConfig extends ParentUtilities {
 		
 		return browser.get();
 	}
+	
+	public static BrowserContext getBrowserContext(Browser browser, ThreadLocal<ExtentTest> logger) {
+		
+		context.set(browser.newContext());
+		return context.get();
+		
+	}
+	
+	public static Page getPage(BrowserContext context, ThreadLocal<ExtentTest> logger) {
+		
+		page.set(context.newPage());
+		return page.get();
+		
+	}
+	
 
 }

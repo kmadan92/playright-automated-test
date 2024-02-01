@@ -5,7 +5,6 @@ import org.testng.ITestListener;
 import org.testng.ITestResult;
 
 import com.aventstack.extentreports.ExtentReports;
-import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 
@@ -56,7 +55,7 @@ public class Reporter extends ParentUtilities implements ITestListener  {
 		
 	}
 	
-	public ExtentReports getReport() {
+	public static ExtentReports getReport() {
 		 
 	 	ExtentReports extentrep = new ExtentReports();
 		ExtentSparkReporter spark = new ExtentSparkReporter(System.getProperty("user.dir")+"\\target\\surefire-reports\\TestReport.html");
@@ -65,42 +64,5 @@ public class Reporter extends ParentUtilities implements ITestListener  {
 		return extentrep;
 
 	}
-
-	public static void Log(ThreadLocal<ExtentTest> logger,Status status, String message) {
-
-	try {
-		System.out.println(message);
-		logger.get().log(status, message);
-		}
-
-	catch(Exception e){
-		e.printStackTrace();
-	
-	}
-	}
-	
-	public static void Pass(ThreadLocal<ExtentTest> logger,Status status, String message) {
-
-		try {
-			System.out.println(message);
-			logger.get().pass(message);
-			}
-
-		catch(Exception e){
-			e.printStackTrace();
-	}
-	}
-		
-		public static void Fail(ThreadLocal<ExtentTest> logger,Status status, String message) {
-
-			try {
-				System.out.println(message);
-				logger.get().fail(message);
-				}
-
-			catch(Exception e){
-				e.printStackTrace();
-		}
-		}
 	
 }
