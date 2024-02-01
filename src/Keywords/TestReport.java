@@ -3,9 +3,9 @@ package Keywords;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
 
-import Utilities.ParentUtilities;
+import Utilities.WrapperUtilities;
 
-public class TestReport extends ParentUtilities {
+public class TestReport extends WrapperUtilities {
 	
 	public static void Log(ThreadLocal<ExtentTest> logger,Status status, String message) {
 

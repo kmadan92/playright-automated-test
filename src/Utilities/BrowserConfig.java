@@ -11,10 +11,10 @@ import com.microsoft.playwright.Playwright;
 
 import Keywords.TestReport;
 
-public class BrowserConfig extends ParentUtilities {
+public class BrowserConfig extends WrapperUtilities {
 	
 	
-	public static Browser getBrowser(String BrowserType, ThreadLocal<ExtentTest> logger) {
+	public ThreadLocal<Browser> getBrowser(String BrowserType, ThreadLocal<ExtentTest> logger) {
 		
 		playwright.set(Playwright.create());
 		LaunchOptions lp = new LaunchOptions();
@@ -59,22 +59,21 @@ public class BrowserConfig extends ParentUtilities {
 			TestReport.Fail(logger, Status.FAIL, "Safari Browser Launched Successfully");
 		}
 		
-		return browser.get();
+		return browser;
 	}
 	
-	public static BrowserContext getBrowserContext(Browser browser, ThreadLocal<ExtentTest> logger) {
+	public ThreadLocal<BrowserContext> getBrowserContext(Browser browser, ThreadLocal<ExtentTest> logger) {
 		
-		context.set(browser.newContext());
-		return context.get();
-		
-	}
-	
-	public static Page getPage(BrowserContext context, ThreadLocal<ExtentTest> logger) {
-		
-		page.set(context.newPage());
-		return page.get();
+		browser_context.set(browser.newContext());
+		return browser_context;
 		
 	}
 	
+	public ThreadLocal<Page> getPage(BrowserContext context, ThreadLocal<ExtentTest> logger) {
+		
+		tab.set(context.newPage());
+		return tab;
+		
+	}
 
 }

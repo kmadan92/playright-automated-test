@@ -9,7 +9,7 @@ import com.aventstack.extentreports.Status;
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 
 
-public class Reporter extends ParentUtilities implements ITestListener  { 
+public class Reporter extends WrapperUtilities implements ITestListener  { 
 
 	public void onTestStart(ITestResult result) {
 		// TODO Auto-generated method stub

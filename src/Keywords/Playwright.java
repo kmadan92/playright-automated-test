@@ -1,7 +1,7 @@
 package Keywords;
 
-import Utilities.ParentUtilities;
+import Utilities.WrapperUtilities;
 
-public class Playwright extends ParentUtilities {
+public class Playwright extends WrapperUtilities {
 
 }

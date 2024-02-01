@@ -4,31 +4,28 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeTest;
+import Utilities.WrapperUtilities;
 
-import com.microsoft.playwright.Browser;
-import com.microsoft.playwright.Page;
-import Utilities.ParentUtilities;
-
-public class DemoTest1 extends ParentUtilities {
-	Browser web_browser;
-	Page tab;
+public class DemoTest1 extends WrapperUtilities {
+	
 	
 	@BeforeClass
 	public void BeforeClass_DemoTest1() {
 		
-		web_browser = OpenBrowser(System.getProperty("Browser"), logger);
+		browser.set(OpenBrowser(System.getProperty("Browser"), logger));
 	}
 	
 	@BeforeTest
 	public void BeforeTest_DemoTest1() {
 		
-		tab = OpenTab(web_browser, logger);
+		browser_context.set(OpenBrowserContext(browser.get(), logger));
+		tab.set(OpenTab(browser_context.get(), logger));
 	}
 	
 	@AfterClass
 	public void AfterClass_DemoTest1() {
 		
-		playwright.get().close();
+		closePlayright(logger);
 	}
 	
 	@AfterTest
