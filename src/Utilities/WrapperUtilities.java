@@ -4,7 +4,6 @@ import java.nio.file.Paths;
 
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
-import com.aventstack.extentreports.Status;
 import com.aventstack.extentreports.model.service.util.ExceptionUtil;
 import com.microsoft.playwright.Browser;
 import com.microsoft.playwright.BrowserContext;
@@ -37,7 +36,7 @@ public class WrapperUtilities {
 		}catch(Exception e)
 		{
 			e.printStackTrace();
-			TestReport.Fail(logger, Status.FAIL, ExceptionUtil.getStackTrace(e));
+			TestReport.Fail(logger, ExceptionUtil.getStackTrace(e));
 			return null;
 		}
 		
@@ -52,7 +51,7 @@ public class WrapperUtilities {
 		}catch(Exception e)
 		{
 			e.printStackTrace();
-			TestReport.Fail(logger, Status.FAIL, ExceptionUtil.getStackTrace(e));
+			TestReport.Fail(logger, ExceptionUtil.getStackTrace(e));
 			return null;
 		}
 		
@@ -68,7 +67,7 @@ public class WrapperUtilities {
 		}catch(Exception e)
 		{
 			e.printStackTrace();
-			TestReport.Fail(logger, Status.FAIL, ExceptionUtil.getStackTrace(e));
+			TestReport.Fail(logger, ExceptionUtil.getStackTrace(e));
 			return null;
 		}
 	}
@@ -78,11 +77,12 @@ public class WrapperUtilities {
 		try {
 			
 			playwright.get().close();
+			TestReport.Pass(logger, "Gracefully Exited Playwright Server");
 			
 		}catch(Exception e)
 		{
 			e.printStackTrace();
-			TestReport.Fail(logger, Status.FAIL, ExceptionUtil.getStackTrace(e));
+			TestReport.Fail(logger, ExceptionUtil.getStackTrace(e));
 		}
 		
 	}
@@ -99,7 +99,7 @@ public class WrapperUtilities {
 		}catch(Exception e)
 		{
 			e.printStackTrace();
-			TestReport.Fail(logger, Status.FAIL, ExceptionUtil.getStackTrace(e));
+			TestReport.Fail(logger, ExceptionUtil.getStackTrace(e));
 		}
 	}
 	
@@ -113,7 +113,7 @@ public class WrapperUtilities {
 			}catch(Exception e)
 			{
 				e.printStackTrace();
-				TestReport.Fail(logger, Status.FAIL, ExceptionUtil.getStackTrace(e));
+				TestReport.Fail(logger, ExceptionUtil.getStackTrace(e));
 			}
 		
 	}

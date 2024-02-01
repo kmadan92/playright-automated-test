@@ -7,11 +7,11 @@ import Utilities.WrapperUtilities;
 
 public class TestReport extends WrapperUtilities {
 	
-	public static void Log(ThreadLocal<ExtentTest> logger,Status status, String message) {
+	public static void Log(ThreadLocal<ExtentTest> logger, String message) {
 
 		try {
 			System.out.println(message);
-			logger.get().log(status, message);
+			logger.get().log(Status.INFO, message);
 			}
 
 		catch(Exception e){
@@ -20,7 +20,7 @@ public class TestReport extends WrapperUtilities {
 		}
 		}
 		
-		public static void Pass(ThreadLocal<ExtentTest> logger,Status status, String message) {
+		public static void Pass(ThreadLocal<ExtentTest> logger, String message) {
 
 			try {
 				System.out.println(message);
@@ -32,7 +32,7 @@ public class TestReport extends WrapperUtilities {
 		}
 		}
 			
-			public static void Fail(ThreadLocal<ExtentTest> logger,Status status, String message) {
+			public static void Fail(ThreadLocal<ExtentTest> logger, String message) {
 
 				try {
 					System.out.println(message);
