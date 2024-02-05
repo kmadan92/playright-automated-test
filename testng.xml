@@ -1,0 +1,1 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><suite name="RegressionSuite"><listeners><listener class-name="Utilities.Reporter"/></listeners><test name="RegressionTest"><classes><class name="Tests.DemoTest1"><methods><include name="negative_login"/></methods></class></classes></test></suite>

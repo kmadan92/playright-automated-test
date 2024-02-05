@@ -5,6 +5,7 @@ import java.nio.file.Paths;
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.model.service.util.ExceptionUtil;
+import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 import com.microsoft.playwright.Browser;
 import com.microsoft.playwright.BrowserContext;
 import com.microsoft.playwright.Page;
@@ -16,26 +17,25 @@ import Keywords.TestReport;
 
 public class WrapperUtilities {
 	
-	public  ThreadLocal<ExtentTest> logger  =  new ThreadLocal<ExtentTest>();
-	public  ExtentReports extent = null;
-	public  ThreadLocal<Playwright> playwright;
-	public  ThreadLocal<Browser> browser;
-	public  ThreadLocal<BrowserContext> browser_context;
-	public  ThreadLocal<Page> tab;
-	public  String TracesDirectory = System.getProperty("user.dir")+"\\Traces";
+	public static ThreadLocal<ExtentTest> logger  =  new ThreadLocal<ExtentTest>();
+	public static ExtentReports extent = null;
+	public static  ThreadLocal<Playwright> playwright =  new ThreadLocal<>();
+	public static  ThreadLocal<Browser> browser =  new ThreadLocal<>();
+	public static  ThreadLocal<BrowserContext> browser_context  =  new ThreadLocal<>();
+	public static  ThreadLocal<Page> tab  =  new ThreadLocal<>();
+	public static String TracesDirectory = System.getProperty("user.dir")+"/Traces";
+	public static ThreadLocal<String> URL  = new ThreadLocal<String>();
 	
-	
-	BrowserConfig browser_config = new BrowserConfig();
-	
-	public Browser OpenBrowser(String Browser, ThreadLocal<ExtentTest> logger) {
+	public  Browser OpenBrowser(String Browser, ThreadLocal<ExtentTest> logger) {
 		
 		try {
 			
-			return browser_config.getBrowser(Browser, logger).get();
+			return BrowserConfig.getBrowser(Browser, logger).get();
 		
 		}catch(Exception e)
 		{
-			TestReport.Fail(logger, ExceptionUtil.getStackTrace(e));
+			//TestReport.Fail(logger, ExceptionUtil.getStackTrace(e));
+			e.printStackTrace();
 			return null;
 		}
 		
@@ -45,7 +45,7 @@ public class WrapperUtilities {
 		
 		try {
 			
-			return browser_config.getBrowserContext(browser, logger).get();
+			return BrowserConfig.getBrowserContext(browser, logger).get();
 			
 		}catch(Exception e)
 		{
@@ -60,13 +60,19 @@ public class WrapperUtilities {
 		
 		try {
 			
-			return browser_config.getPage(browser_context, logger).get();
+			return BrowserConfig.getPage(browser_context, logger).get();
 		
 		}catch(Exception e)
 		{
 			TestReport.Fail(logger, ExceptionUtil.getStackTrace(e));
 			return null;
 		}
+	}
+	
+	public String getURL(ThreadLocal<ExtentTest> logger) {
+		
+		return URL.get();
+		
 	}
 	
 	public void closePlayright(ThreadLocal<ExtentTest> logger) {
@@ -98,6 +104,7 @@ public class WrapperUtilities {
 		}
 	}
 	
+	
 	public void StopRecording(ThreadLocal<BrowserContext> browser_context, String TestName, ThreadLocal<ExtentTest> logger) {
 			
 			try {
@@ -112,6 +119,14 @@ public class WrapperUtilities {
 		
 	}
 	
-	
+	public static ExtentReports getReport() {
+		 
+	 	ExtentReports extentrep = new ExtentReports();
+		ExtentSparkReporter spark = new ExtentSparkReporter(System.getProperty("user.dir")+"\\target\\surefire-reports\\TestReport.html");
+		extentrep.attachReporter(spark);
+		extentrep.setSystemInfo("QE Engineer", "Kapil Madan");
+		return extentrep;
+
+	}
 
 }

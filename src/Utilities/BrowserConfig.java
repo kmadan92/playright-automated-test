@@ -13,69 +13,70 @@ import Keywords.TestReport;
 public class BrowserConfig extends WrapperUtilities {
 	
 	
-	public ThreadLocal<Browser> getBrowser(String BrowserType, ThreadLocal<ExtentTest> logger) {
+	
+	public static ThreadLocal<Browser> getBrowser(String BrowserType, ThreadLocal<ExtentTest> logger) {
 		
 		playwright.set(Playwright.create());
 		LaunchOptions lp = new LaunchOptions();
 		
-		if(System.getProperty("Headless Execution").equalsIgnoreCase("Yes")) {
+		if(System.getProperty("HeadlessExecution").equalsIgnoreCase("Yes")) {
 			
 			lp.setHeadless(true);
-			TestReport.Pass(logger, "Headless Execution Initiated Successfully");
+//			TestReport.Pass(logger, "Headless Execution Initiated Successfully");
 		}	
 		else {
 			lp.setHeadless(false);
-			TestReport.Pass(logger, "Headful Execution Initiated Successfully");
+//			TestReport.Pass(logger, "Headful Execution Initiated Successfully");
 		}
 			
 		if(BrowserType.equalsIgnoreCase("Chrome")){
-			TestReport.Log(logger, "Launching Chrome Browser.....");
+//			TestReport.Log(logger, "Launching Chrome Browser.....");
 			lp.setChannel("chrome");
-			browser.set(playwright.get().chromium().launch(lp));;
-			TestReport.Pass(logger, "Chrome Browser Launched Successfully");
+			browser.set(playwright.get().chromium().launch(lp));
+//			TestReport.Pass(logger, "Chrome Browser Launched Successfully");
 			
 		}
 		else if(BrowserType.equalsIgnoreCase("Edge")) {
-			TestReport.Log(logger, "Launching Edge Browser.....");
+//			TestReport.Log(logger, "Launching Edge Browser.....");
 			lp.setChannel("msedge");
 			browser.set(playwright.get().chromium().launch(lp));
-			TestReport.Pass(logger, "Edge Browser Launched Successfully");
+//			TestReport.Pass(logger, "Edge Browser Launched Successfully");
 			
 		}
 		else if(BrowserType.equalsIgnoreCase("Firefox")) {
-			TestReport.Log(logger, "Launching Firefox Browser.....");
+//			TestReport.Log(logger, "Launching Firefox Browser.....");
 			browser.set(playwright.get().firefox().launch(lp));
-			TestReport.Pass(logger, "Firefox Browser Launched Successfully");
+//			TestReport.Pass(logger, "Firefox Browser Launched Successfully");
 			
 		}
 		else if(BrowserType.equalsIgnoreCase("Safari")) {
-			TestReport.Log(logger, "Launching Safari Browser.....");
+//			TestReport.Log(logger, "Launching Safari Browser.....");
 			browser.set(playwright.get().webkit().launch(lp));
-			TestReport.Pass(logger, "Safari Browser Launched Successfully");
+//			TestReport.Pass(logger, "Safari Browser Launched Successfully");
 			
 		}
 		else {
-			TestReport.Fail(logger, "Safari Browser Launched Successfully");
+//			TestReport.Fail(logger, "Safari Browser Launched Successfully");
 		}
 		
 		return browser;
 	}
 	
-	public ThreadLocal<BrowserContext> getBrowserContext(Browser browser, ThreadLocal<ExtentTest> logger) {
+	public static ThreadLocal<BrowserContext> getBrowserContext(Browser browser, ThreadLocal<ExtentTest> logger) {
 		
-		TestReport.Log(logger, "Initializing Browser Context.....");
+//		TestReport.Log(logger, "Initializing Browser Context.....");
 		browser_context.set(browser.newContext());
-		TestReport.Pass(logger, "New Browser Context Set Successfully");
+//		TestReport.Pass(logger, "New Browser Context Set Successfully");
 		
 		return browser_context;
 		
 	}
 	
-	public ThreadLocal<Page> getPage(BrowserContext context, ThreadLocal<ExtentTest> logger) {
+	public static ThreadLocal<Page> getPage(BrowserContext context, ThreadLocal<ExtentTest> logger) {
 		
-		TestReport.Log(logger, "Opening Browser Tab.....");
+//		TestReport.Log(logger, "Opening Browser Tab.....");
 		tab.set(context.newPage());
-		TestReport.Pass(logger, "New Browser Tab Opened");
+//		TestReport.Pass(logger, "New Browser Tab Opened");
 		
 		return tab;
 		

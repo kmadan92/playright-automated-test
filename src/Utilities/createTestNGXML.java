@@ -37,7 +37,7 @@ public class createTestNGXML {
 	{
 		
 		String dir = System.getProperty("user.dir");
-		File inputFile=new File(dir+"\\" + "Config\\" + "Executor.xls");
+		File inputFile=new File(dir+"/" + "Config/" + "Executor.xls");
 		Map<String,String> sheetData=new HashMap<String,String>();
 		Map<Integer,String> ClassMap=new HashMap<Integer,String>();
 		Map<Integer,String> FunctionMap=new HashMap<Integer,String>();
@@ -54,7 +54,7 @@ public class createTestNGXML {
 		
 		Element rootElementListener = document.createElement("listeners");
 		Element childElementListener = document.createElement("listener");
-		childElementListener.setAttribute("class-name", "Utilities.ExtentListener");
+		childElementListener.setAttribute("class-name", "Utilities.Reporter");
 		rootElementListener.appendChild(childElementListener);
 		
 		Element rootElementSuite = document.createElement("suite");
@@ -95,7 +95,7 @@ public class createTestNGXML {
 					if (hValue.equals("Yes"))
 					{
 						
-						ClassMap.put(z, "Flows."+sheetData.get("Class"));
+						ClassMap.put(z, "Tests."+sheetData.get("Class"));
 						FunctionMap.put(z, sheetData.get("Function"));
 						z++;
 						
@@ -158,7 +158,7 @@ public class createTestNGXML {
 			
 			document.appendChild(rootElementSuite);
 			
-			FileWriter fstream = new FileWriter(dir+"\\testng.xml");
+			FileWriter fstream = new FileWriter(dir+"/testng.xml");
 			BufferedWriter out = new BufferedWriter(fstream);
 			
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
