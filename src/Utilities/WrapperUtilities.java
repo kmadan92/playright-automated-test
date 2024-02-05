@@ -35,7 +35,6 @@ public class WrapperUtilities {
 		
 		}catch(Exception e)
 		{
-			e.printStackTrace();
 			TestReport.Fail(logger, ExceptionUtil.getStackTrace(e));
 			return null;
 		}
@@ -50,7 +49,6 @@ public class WrapperUtilities {
 			
 		}catch(Exception e)
 		{
-			e.printStackTrace();
 			TestReport.Fail(logger, ExceptionUtil.getStackTrace(e));
 			return null;
 		}
@@ -66,7 +64,6 @@ public class WrapperUtilities {
 		
 		}catch(Exception e)
 		{
-			e.printStackTrace();
 			TestReport.Fail(logger, ExceptionUtil.getStackTrace(e));
 			return null;
 		}
@@ -81,7 +78,6 @@ public class WrapperUtilities {
 			
 		}catch(Exception e)
 		{
-			e.printStackTrace();
 			TestReport.Fail(logger, ExceptionUtil.getStackTrace(e));
 		}
 		
@@ -98,7 +94,6 @@ public class WrapperUtilities {
 			
 		}catch(Exception e)
 		{
-			e.printStackTrace();
 			TestReport.Fail(logger, ExceptionUtil.getStackTrace(e));
 		}
 	}
@@ -112,7 +107,6 @@ public class WrapperUtilities {
 				
 			}catch(Exception e)
 			{
-				e.printStackTrace();
 				TestReport.Fail(logger, ExceptionUtil.getStackTrace(e));
 			}
 		
