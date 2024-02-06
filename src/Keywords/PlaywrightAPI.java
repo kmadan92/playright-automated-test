@@ -1,5 +1,7 @@
 package Keywords;
 
+import org.testng.Assert;
+
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.model.service.util.ExceptionUtil;
 import com.microsoft.playwright.Locator;
@@ -35,6 +37,7 @@ public class PlaywrightAPI extends WrapperUtilities {
 		
 		}catch(Exception e) {
 			
+			Assert.fail();
 			TestReport.Log(logger, ExceptionUtil.getStackTrace(e));
 			TestReport.Fail(logger, "Clicking to "+locator+" failed");
 		}

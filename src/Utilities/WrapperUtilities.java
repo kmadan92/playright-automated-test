@@ -2,6 +2,8 @@ package Utilities;
 
 import java.nio.file.Paths;
 
+import org.testng.Assert;
+
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.model.service.util.ExceptionUtil;
@@ -36,6 +38,7 @@ public class WrapperUtilities {
 		{
 			//TestReport.Fail(logger, ExceptionUtil.getStackTrace(e));
 			e.printStackTrace();
+			Assert.fail();
 			return null;
 		}
 		
