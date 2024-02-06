@@ -1,3 +1,4 @@
 target/*
 Traces/*
 *.class
+.DS_Store
