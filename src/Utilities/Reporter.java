@@ -3,7 +3,10 @@ package Utilities;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
+
+import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.Status;
+import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 
 
 public class Reporter extends WrapperUtilities implements ITestListener  { 
@@ -50,6 +53,16 @@ public class Reporter extends WrapperUtilities implements ITestListener  {
 		// TODO Auto-generated method stub
 		extent.flush();
 		
+	}
+	
+	public ExtentReports getReport() {
+		 
+	 	ExtentReports extentrep = new ExtentReports();
+		ExtentSparkReporter spark = new ExtentSparkReporter(System.getProperty("user.dir")+"/target/surefire-reports/TestReport.html");
+		extentrep.attachReporter(spark);
+		extentrep.setSystemInfo("QE Engineer", "Kapil Madan");
+		return extentrep;
+
 	}
 	
 }

@@ -7,7 +7,6 @@ import org.testng.Assert;
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.model.service.util.ExceptionUtil;
-import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 import com.microsoft.playwright.Browser;
 import com.microsoft.playwright.BrowserContext;
 import com.microsoft.playwright.Page;
@@ -136,16 +135,6 @@ public class WrapperUtilities {
 				TestReport.Fail(logger, ExceptionUtil.getStackTrace(e));
 			}
 		
-	}
-	
-	public static ExtentReports getReport() {
-		 
-	 	ExtentReports extentrep = new ExtentReports();
-		ExtentSparkReporter spark = new ExtentSparkReporter(System.getProperty("user.dir")+"/target/surefire-reports/TestReport.html");
-		extentrep.attachReporter(spark);
-		extentrep.setSystemInfo("QE Engineer", "Kapil Madan");
-		return extentrep;
-
 	}
 
 }

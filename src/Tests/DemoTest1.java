@@ -49,8 +49,8 @@ public class DemoTest1 extends WrapperUtilities {
 		
 		
 		PlaywrightAPI.NavigateToURL(getURL(logger), tab, logger);
-		PlaywrightAPI.Type(DemoLocators.username, TracesDirectory, logger);
-		PlaywrightAPI.Type(DemoLocators.password, TracesDirectory, logger);
+		PlaywrightAPI.Type(DemoLocators.username, "abcd", logger);
+		PlaywrightAPI.Type(DemoLocators.password, "defg", logger);
 		PlaywrightAPI.Click(DemoLocators.login, logger);
 		
 	}
