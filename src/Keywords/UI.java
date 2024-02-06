@@ -9,7 +9,7 @@ import com.microsoft.playwright.Page;
 
 import Utilities.WrapperUtilities;
 
-public class PlaywrightAPI extends WrapperUtilities {
+public class UI extends WrapperUtilities {
 	
 	public static void NavigateToURL(String URL, ThreadLocal<Page> tab, ThreadLocal<ExtentTest> logger) {
 		

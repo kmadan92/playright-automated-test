@@ -7,7 +7,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import Keywords.PlaywrightAPI;
+import Keywords.UI;
 import Locators.DemoLocators;
 import Utilities.WrapperUtilities;
 
@@ -48,10 +48,10 @@ public class DemoTest1 extends WrapperUtilities {
 	public void negative_login() {
 		
 		
-		PlaywrightAPI.NavigateToURL(getURL(logger), tab, logger);
-		PlaywrightAPI.Type(DemoLocators.username, "abcd", logger);
-		PlaywrightAPI.Type(DemoLocators.password, "defg", logger);
-		PlaywrightAPI.Click(DemoLocators.login, logger);
+		UI.NavigateToURL(getURL(logger), tab, logger);
+		UI.Type(DemoLocators.username, "abcd", logger);
+		UI.Type(DemoLocators.password, "defg", logger);
+		UI.Click(DemoLocators.login, logger);
 		
 	}
 
