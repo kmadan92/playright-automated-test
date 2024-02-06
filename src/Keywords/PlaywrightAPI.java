@@ -37,9 +37,9 @@ public class PlaywrightAPI extends WrapperUtilities {
 		
 		}catch(Exception e) {
 			
-			Assert.fail();
 			TestReport.Log(logger, ExceptionUtil.getStackTrace(e));
 			TestReport.Fail(logger, "Clicking to "+locator+" failed");
+			Assert.fail();
 		}
 		
 	}
@@ -56,6 +56,7 @@ public class PlaywrightAPI extends WrapperUtilities {
 			
 			TestReport.Log(logger, ExceptionUtil.getStackTrace(e));
 			TestReport.Fail(logger, "Typing "+text+" failed to "+locator);
+			Assert.fail();
 		}
 		
 	}
@@ -74,6 +75,7 @@ public class PlaywrightAPI extends WrapperUtilities {
 			
 			TestReport.Log(logger, ExceptionUtil.getStackTrace(e));
 			TestReport.Fail(logger, "Failed to getText from "+locator);
+			Assert.fail();
 			return null;
 		}
 		

@@ -53,6 +53,7 @@ public class WrapperUtilities {
 		}catch(Exception e)
 		{
 			TestReport.Fail(logger, ExceptionUtil.getStackTrace(e));
+			Assert.fail();
 			return null;
 		}
 		
@@ -68,13 +69,25 @@ public class WrapperUtilities {
 		}catch(Exception e)
 		{
 			TestReport.Fail(logger, ExceptionUtil.getStackTrace(e));
+			Assert.fail();
 			return null;
 		}
 	}
 	
 	public String getURL(ThreadLocal<ExtentTest> logger) {
 		
+		try {
+			
+		TestReport.Log(logger, "URL set to: "+URL.get());
 		return URL.get();
+		
+		}catch(Exception e) {
+			
+			TestReport.Log(logger, "Cannot set URL");
+			TestReport.Fail(logger, ExceptionUtil.getStackTrace(e));
+			Assert.fail();
+			return null;
+		}
 		
 	}
 	
@@ -87,6 +100,7 @@ public class WrapperUtilities {
 			
 		}catch(Exception e)
 		{
+			TestReport.Log(logger, "Problems in exiting Playwright server");
 			TestReport.Fail(logger, ExceptionUtil.getStackTrace(e));
 		}
 		
