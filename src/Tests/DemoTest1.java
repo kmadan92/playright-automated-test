@@ -1,5 +1,6 @@
 package Tests;
 
+import org.testng.ITestContext;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
@@ -21,8 +22,9 @@ public class DemoTest1 extends WrapperUtilities {
 	}
 	
 	@BeforeMethod
-	public void BeforeMethod_DemoTest1() {
+	public void BeforeMethod_DemoTest1(ITestContext test) {
 		
+		logger.set(extent.createTest(test.getName()));
 		browser_context.set(OpenBrowserContext(browser.get(), logger));
 		StartRecording(browser_context, logger);
 		tab.set(OpenTab(browser_context.get(), logger));

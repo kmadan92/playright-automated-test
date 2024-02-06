@@ -19,10 +19,10 @@ public class WrapperUtilities {
 	
 	public static ThreadLocal<ExtentTest> logger  =  new ThreadLocal<ExtentTest>();
 	public static ExtentReports extent = null;
-	public static  ThreadLocal<Playwright> playwright =  new ThreadLocal<>();
-	public static  ThreadLocal<Browser> browser =  new ThreadLocal<>();
-	public static  ThreadLocal<BrowserContext> browser_context  =  new ThreadLocal<>();
-	public static  ThreadLocal<Page> tab  =  new ThreadLocal<>();
+	public static ThreadLocal<Playwright> playwright =  new ThreadLocal<>();
+	public static ThreadLocal<Browser> browser =  new ThreadLocal<>();
+	public static ThreadLocal<BrowserContext> browser_context  =  new ThreadLocal<>();
+	public static ThreadLocal<Page> tab  =  new ThreadLocal<>();
 	public static String TracesDirectory = System.getProperty("user.dir")+"/Traces";
 	public static ThreadLocal<String> URL  = new ThreadLocal<String>();
 	
@@ -100,6 +100,7 @@ public class WrapperUtilities {
 			
 		}catch(Exception e)
 		{
+			TestReport.Log(logger, "Failure to start Recording");
 			TestReport.Fail(logger, ExceptionUtil.getStackTrace(e));
 		}
 	}
@@ -110,10 +111,11 @@ public class WrapperUtilities {
 			try {
 				
 				browser_context.get().tracing().stop(new Tracing.StopOptions()
-						  .setPath(Paths.get(TracesDirectory+"\\"+TestName)));
+						  .setPath(Paths.get(TracesDirectory+"/"+TestName)));
 				
 			}catch(Exception e)
 			{
+				TestReport.Log(logger, "Failure to stop Recording");
 				TestReport.Fail(logger, ExceptionUtil.getStackTrace(e));
 			}
 		
@@ -122,7 +124,7 @@ public class WrapperUtilities {
 	public static ExtentReports getReport() {
 		 
 	 	ExtentReports extentrep = new ExtentReports();
-		ExtentSparkReporter spark = new ExtentSparkReporter(System.getProperty("user.dir")+"\\target\\surefire-reports\\TestReport.html");
+		ExtentSparkReporter spark = new ExtentSparkReporter(System.getProperty("user.dir")+"/target/surefire-reports/TestReport.html");
 		extentrep.attachReporter(spark);
 		extentrep.setSystemInfo("QE Engineer", "Kapil Madan");
 		return extentrep;
