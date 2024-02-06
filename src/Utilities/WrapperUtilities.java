@@ -1,7 +1,21 @@
 package Utilities;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Iterator;
 
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.testng.Assert;
 
 import com.aventstack.extentreports.ExtentReports;
@@ -26,6 +40,8 @@ public class WrapperUtilities {
 	public static ThreadLocal<Page> tab  =  new ThreadLocal<>();
 	public static String TracesDirectory = System.getProperty("user.dir")+"/Traces";
 	public static ThreadLocal<String> URL  = new ThreadLocal<String>();
+	public static String pathInsideProject;
+	public static ThreadLocal<String> threadDataSheetName  = new ThreadLocal<String>();
 	
 	public  Browser OpenBrowser(String Browser, ThreadLocal<ExtentTest> logger) {
 		
@@ -116,8 +132,7 @@ public class WrapperUtilities {
 			
 		}catch(Exception e)
 		{
-			TestReport.Log(logger, "Failure to start Recording");
-			TestReport.Fail(logger, ExceptionUtil.getStackTrace(e));
+			e.printStackTrace();
 		}
 	}
 	
@@ -126,15 +141,119 @@ public class WrapperUtilities {
 			
 			try {
 				
+				String timestamp = new SimpleDateFormat("MM-dd-yyyy HH-mm-ss").format(new Date());
+				
 				browser_context.get().tracing().stop(new Tracing.StopOptions()
-						  .setPath(Paths.get(TracesDirectory+"/"+TestName)));
+						  .setPath(Paths.get(TracesDirectory+"/"+TestName+"_"+timestamp)));
 				
 			}catch(Exception e)
 			{
-				TestReport.Log(logger, "Failure to stop Recording");
-				TestReport.Fail(logger, ExceptionUtil.getStackTrace(e));
+				e.printStackTrace();
 			}
 		
 	}
+	
+	public static String getPathCommon() throws URISyntaxException {
+		pathInsideProject = new File("").getAbsolutePath();
+		return pathInsideProject;
+	}
+	
+	public static void setThreadDataSheetName(String DataSheetName) {
+		threadDataSheetName.set(DataSheetName);
+	}
+	
+	public static String getThreadDataSheetName() {
+		return threadDataSheetName.get();
+	}
+	
+	 public static String getParameterFromInputSheet(String sheetName, String parameter, int rowNum, int headerrow) {
+			String value = null;
+			
+			String FileName = getThreadDataSheetName();
+			try {
+				String path = getPathCommon();
+				ThreadLocal<FileInputStream> file = new ThreadLocal<FileInputStream>();
+				file.set( new FileInputStream(new File(path + "\\Datafiles\\" + FileName)));
+
+				ThreadLocal<XSSFWorkbook> workbook = new ThreadLocal<XSSFWorkbook>();
+				workbook.set(new XSSFWorkbook(file.get()));
+				ThreadLocal<XSSFSheet> sheet = new ThreadLocal<XSSFSheet>();
+						sheet.set(workbook.get().getSheet(sheetName));
+						
+				int paramCol = -1;
+				Iterator<Cell> cellIterator = sheet.get().getRow(headerrow).cellIterator();
+				while (cellIterator.hasNext()) {
+					Cell cell = (Cell) cellIterator.next();
+					try {
+						if (cell.getStringCellValue().equals(parameter))
+							paramCol = cell.getColumnIndex();
+					} catch (Exception e) {
+					}
+				}
+				try {
+					value = sheet.get().getRow(rowNum).getCell(paramCol).getStringCellValue();
+				} catch (Exception e) {
+				}
+				file.get().close();
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+				System.out.println("Please verify the Data sheet, and the path where it is saved are correct");
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (URISyntaxException e1) {
+				e1.printStackTrace();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return value;
+		}
+	
+	 public static void SetParameterFromInputSheet(String sheetName, String parameter, int rowNum, int headerrow,
+				String Value) {
+			{
+				try {
+					String FileName = getThreadDataSheetName();
+
+					String path = getPathCommon();
+					ThreadLocal<FileInputStream> file = new ThreadLocal<FileInputStream>();
+					file.set( new FileInputStream(new File(path + "\\Datafiles\\" + FileName)));
+
+					ThreadLocal<XSSFWorkbook> workbook = new ThreadLocal<XSSFWorkbook>();
+					workbook.set(new XSSFWorkbook(file.get()));
+					ThreadLocal<XSSFSheet> sheet = new ThreadLocal<XSSFSheet>();
+					sheet.set(workbook.get().getSheet(sheetName));
+
+					int paramCol = -1;
+					Iterator<Cell> cellIterator = sheet.get().getRow(headerrow).cellIterator();
+					while (cellIterator.hasNext()) {
+						Cell cell = (Cell) cellIterator.next();
+						try {
+							if (cell.getStringCellValue().equals(parameter))
+								paramCol = cell.getColumnIndex();
+						} catch (Exception e) {
+						}
+					}
+					try {
+						ThreadLocal<XSSFRow> row1 = new ThreadLocal<XSSFRow>();
+						row1.set(sheet.get().getRow(rowNum));
+						ThreadLocal<XSSFCell> cellA1 = new ThreadLocal<XSSFCell>();
+						cellA1.set(row1.get().createCell(paramCol));
+						cellA1.get().setCellValue(Value);
+					} catch (Exception e) {
+					}
+					FileOutputStream out = new FileOutputStream(new File(path + "//Datafiles//" + FileName));
+
+					workbook.get().write(out);
+					out.close();
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+					System.out.println("Please verify the Data sheet, and the path where it is saved are correct");
+				} catch (IOException e) {
+					e.printStackTrace();
+				} catch (URISyntaxException e1) {
+					e1.printStackTrace();
+				}
+			}
+		}
 
 }
