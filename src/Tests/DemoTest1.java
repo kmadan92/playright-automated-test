@@ -16,7 +16,7 @@ public class DemoTest1 extends WrapperUtilities {
 	
 	@BeforeClass
 	public void BeforeClass_DemoTest1() {
-		extent = getReport();
+		
 		browser.set(OpenBrowser(System.getProperty("Browser"), logger));
 		
 	}
@@ -24,7 +24,6 @@ public class DemoTest1 extends WrapperUtilities {
 	@BeforeMethod
 	public void BeforeMethod_DemoTest1(ITestContext test) {
 		
-		logger.set(extent.createTest(test.getName()));
 		browser_context.set(OpenBrowserContext(browser.get(), logger));
 		StartRecording(browser_context, logger);
 		tab.set(OpenTab(browser_context.get(), logger));
