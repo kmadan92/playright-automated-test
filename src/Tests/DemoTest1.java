@@ -40,6 +40,9 @@ public class DemoTest1 extends WrapperUtilities {
 	public void AfterMethod_DemoTest1(ITestResult result) {
 		
 		StopRecording(browser_context, result.getMethod().getMethodName(), logger);
+		CloseTab(tab, logger);
+		CloseBrowserContext(browser_context, logger);
+		CloseBrowser(browser, logger);
 		
 	}
 	
@@ -50,7 +53,7 @@ public class DemoTest1 extends WrapperUtilities {
 		UI.Type(DemoLocators.username, "abcd", tab, logger);
 		UI.Type(DemoLocators.password, "defg", tab, logger);
 		UI.Click(DemoLocators.login, tab, logger);
-		tab.get().close();
+		
 	}
 	
 	@Test
@@ -70,7 +73,7 @@ public class DemoTest1 extends WrapperUtilities {
 		UI.Type(DemoLocators.username, "ghdedgs", tab, logger);
 		UI.Type(DemoLocators.password, "hddegd", tab, logger);
 		UI.Click(DemoLocators.login, tab, logger);
-		tab.get().close();
+	
 	}
 	
 	@Test
@@ -82,7 +85,7 @@ public class DemoTest1 extends WrapperUtilities {
 //		Page tab2 =  (Page) tab.get().frameLocator("//iframe[contains(@src,'Multiple')]");
 //		Page tab3 = (Page) tab2.frameLocator("//iframe[contains(@src,'Single')]");
 //		tab3.click("//input[@type='text']");
-		tab.get().close();
+		
 	}
 	
 	@Test
@@ -94,7 +97,7 @@ public class DemoTest1 extends WrapperUtilities {
 //		Page tab2 =  (Page) tab.get().frameLocator("//iframe[contains(@src,'Multiple')]");
 //		Page tab3 = (Page) tab2.frameLocator("//iframe[contains(@src,'Single')]");
 //		tab3.click("//input[@type='text']");
-		tab.get().close();
+		
 	}
 	
 	@Test
@@ -106,7 +109,7 @@ public class DemoTest1 extends WrapperUtilities {
 //		Page tab2 =  (Page) tab.get().frameLocator("//iframe[contains(@src,'Multiple')]");
 //		Page tab3 = (Page) tab2.frameLocator("//iframe[contains(@src,'Single')]");
 //		tab3.click("//input[@type='text']");
-		tab.get().close();
+		
 	}
 
 }

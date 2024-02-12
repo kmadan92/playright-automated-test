@@ -77,6 +77,21 @@ public class WrapperUtilities {
 		 
 		   tab.set(getBrowserContext(browser_context, logger).newPage());
 	 }
+	 
+	 public static void CloseBrowser(ThreadLocal<Browser> browser, ThreadLocal<ExtentTest> logger) {
+		 
+		   browser.get().close();
+	 }
+	 
+	 public static void CloseBrowserContext(ThreadLocal<BrowserContext> browser_context, ThreadLocal<ExtentTest> logger) {
+		 
+		   browser_context.get().close();
+	 }
+	 
+	 public static void CloseTab(ThreadLocal<Page> tab, ThreadLocal<ExtentTest> logger) {
+		 
+		   tab.get().close();
+	 }
 	
 	public String getURL(ThreadLocal<ExtentTest> logger) {
 		
