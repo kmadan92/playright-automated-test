@@ -17,18 +17,16 @@ public class DemoTest1 extends WrapperUtilities {
 	@BeforeClass
 	public void BeforeClass_DemoTest1() {
 		
-		browser.set(OpenBrowser(System.getProperty("Browser"), logger));
 		
 	}
 	
 	@BeforeMethod
 	public void BeforeMethod_DemoTest1(ITestContext test) {
-		
-		browser_context.set(OpenBrowserContext(browser.get(), logger));
+		OpenBrowser(browser, logger);
+		OpenBrowserContext(browser_context, browser, logger);
+		OpenTab(tab, browser_context, logger);
 		StartRecording(browser_context, logger);
-		tab.set(OpenTab(browser_context.get(), logger));
-		URL.set(System.getProperty("URL"));
-	
+		setURL(logger);
 		
 	}
 	
@@ -42,17 +40,73 @@ public class DemoTest1 extends WrapperUtilities {
 	public void AfterMethod_DemoTest1(ITestResult result) {
 		
 		StopRecording(browser_context, result.getMethod().getMethodName(), logger);
+		
 	}
 	
 	@Test
 	public void negative_login() {
 		
+		UI.NavigateToURL(getURL(logger), tab , logger);
+		UI.Type(DemoLocators.username, "abcd", tab, logger);
+		UI.Type(DemoLocators.password, "defg", tab, logger);
+		UI.Click(DemoLocators.login, tab, logger);
+		tab.get().close();
+	}
+	
+	@Test
+	public void negative_login_1() {
 		
 		UI.NavigateToURL(getURL(logger), tab, logger);
-		UI.Type(DemoLocators.username, "abcd", logger);
-		UI.Type(DemoLocators.password, "defg", logger);
-		UI.Click(DemoLocators.login, logger);
+		UI.Type(DemoLocators.username, "ghgs", tab, logger);
+		UI.Type(DemoLocators.password, "hdgd", tab, logger);
+		UI.Click(DemoLocators.login,tab, logger);
+		tab.get().close();
+	}
+	
+	@Test
+	public void negative_login_2() {
 		
+		UI.NavigateToURL(getURL(logger), tab, logger);
+		UI.Type(DemoLocators.username, "ghdedgs", tab, logger);
+		UI.Type(DemoLocators.password, "hddegd", tab, logger);
+		UI.Click(DemoLocators.login, tab, logger);
+		tab.get().close();
+	}
+	
+	@Test
+	public void negative_login_3() {
+		
+		UI.NavigateToURL(getURL(logger), tab, logger);
+		UI.Click("//*[contains(text(),'with in an')]", tab, logger);
+		UI.Click("//input[@type='text']", tab, logger,"//iframe[contains(@src,'Multiple')]", "//iframe[contains(@src,'Single')]");
+//		Page tab2 =  (Page) tab.get().frameLocator("//iframe[contains(@src,'Multiple')]");
+//		Page tab3 = (Page) tab2.frameLocator("//iframe[contains(@src,'Single')]");
+//		tab3.click("//input[@type='text']");
+		tab.get().close();
+	}
+	
+	@Test
+	public void negative_login_4() {
+		
+		UI.NavigateToURL(getURL(logger), tab, logger);
+		UI.Click("//*[contains(text(),'with in an')]", tab, logger);
+		UI.Click("//input[@type='text']", tab, logger,"//iframe[contains(@src,'Multiple')]", "//iframe[contains(@src,'Single')]");
+//		Page tab2 =  (Page) tab.get().frameLocator("//iframe[contains(@src,'Multiple')]");
+//		Page tab3 = (Page) tab2.frameLocator("//iframe[contains(@src,'Single')]");
+//		tab3.click("//input[@type='text']");
+		tab.get().close();
+	}
+	
+	@Test
+	public void negative_login_5() {
+		
+		UI.NavigateToURL(getURL(logger), tab, logger);
+		UI.Click("//*[contains(text(),'with in an')]", tab, logger);
+		UI.Click("//input[@type='text']", tab, logger,"//iframe[contains(@src,'Multiple')]", "//iframe[contains(@src,'Single')]");
+//		Page tab2 =  (Page) tab.get().frameLocator("//iframe[contains(@src,'Multiple')]");
+//		Page tab3 = (Page) tab2.frameLocator("//iframe[contains(@src,'Single')]");
+//		tab3.click("//input[@type='text']");
+		tab.get().close();
 	}
 
 }

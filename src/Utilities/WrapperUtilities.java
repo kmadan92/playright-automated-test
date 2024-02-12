@@ -35,7 +35,7 @@ public class WrapperUtilities {
 	public static ThreadLocal<ExtentTest> logger  =  new ThreadLocal<ExtentTest>();
 	public static ExtentReports extent = null;
 	public static ThreadLocal<Playwright> playwright =  new ThreadLocal<>();
-	public static ThreadLocal<Browser> browser =  new ThreadLocal<>();
+	public static ThreadLocal<Browser> browser = new ThreadLocal<Browser>();;
 	public static ThreadLocal<BrowserContext> browser_context  =  new ThreadLocal<>();
 	public static ThreadLocal<Page> tab  =  new ThreadLocal<>();
 	public static String TracesDirectory = System.getProperty("user.dir")+"/Traces";
@@ -43,68 +43,74 @@ public class WrapperUtilities {
 	public static String pathInsideProject;
 	public static ThreadLocal<String> threadDataSheetName  = new ThreadLocal<String>();
 	
-	public  Browser OpenBrowser(String Browser, ThreadLocal<ExtentTest> logger) {
+	//-------------------Browser Utilities------------------------
+	
+	public static Browser getBrowser(ThreadLocal<Browser> browser, ThreadLocal<ExtentTest> logger) {
 		
-		try {
-			
-			return BrowserConfig.getBrowser(Browser, logger).get();
-		
-		}catch(Exception e)
-		{
-			//TestReport.Fail(logger, ExceptionUtil.getStackTrace(e));
-			e.printStackTrace();
-			Assert.fail();
-			return null;
-		}
+		return browser.get();
 		
 	}
 	
-	public BrowserContext OpenBrowserContext(Browser browser, ThreadLocal<ExtentTest> logger) {
+	public static BrowserContext getBrowserContext(ThreadLocal<BrowserContext> browser_context, ThreadLocal<ExtentTest> logger) {
 		
-		try {
-			
-			return BrowserConfig.getBrowserContext(browser, logger).get();
-			
-		}catch(Exception e)
-		{
-			TestReport.Fail(logger, ExceptionUtil.getStackTrace(e));
-			Assert.fail();
-			return null;
-		}
-		
+		return browser_context.get();
 		
 	}
 	
-	public Page OpenTab(BrowserContext browser_context, ThreadLocal<ExtentTest> logger) {
+	 public static Page getTab(ThreadLocal<Page> tab, ThreadLocal<ExtentTest> logger) {
 		
-		try {
-			
-			return BrowserConfig.getPage(browser_context, logger).get();
+		return tab.get();
 		
-		}catch(Exception e)
-		{
-			TestReport.Fail(logger, ExceptionUtil.getStackTrace(e));
-			Assert.fail();
-			return null;
-		}
 	}
+	 
+	 public static void OpenBrowser(ThreadLocal<Browser> browser, ThreadLocal<ExtentTest> logger) {
+		 
+		   browser.set(BrowserConfig.getBrowser(logger));
+	 }
+	 
+	 public static void OpenBrowserContext(ThreadLocal<BrowserContext> browser_context, ThreadLocal<Browser> browser, ThreadLocal<ExtentTest> logger) {
+		 
+		   browser_context.set(getBrowser(browser, logger).newContext());
+	 }
+	 
+	 public static void OpenTab(ThreadLocal<Page> tab, ThreadLocal<BrowserContext> browser_context, ThreadLocal<ExtentTest> logger) {
+		 
+		   tab.set(getBrowserContext(browser_context, logger).newPage());
+	 }
 	
 	public String getURL(ThreadLocal<ExtentTest> logger) {
 		
 		try {
 			
-		TestReport.Log(logger, "URL set to: "+URL.get());
+		TestReport.Log(logger, "URL is: "+URL.get());
 		return URL.get();
 		
 		}catch(Exception e) {
 			
-			TestReport.Log(logger, "Cannot set URL");
+			TestReport.Log(logger, "Cannot get URL"+" -"+tab.get());
 			TestReport.Fail(logger, ExceptionUtil.getStackTrace(e));
 			Assert.fail();
 			return null;
 		}
 		
 	}
+	
+	public void setURL(ThreadLocal<ExtentTest> logger) {
+		
+		try {
+			
+		
+		URL.set(System.getProperty("URL"));
+		
+		}catch(Exception e) {
+			
+			TestReport.Fail(logger, ExceptionUtil.getStackTrace(e));
+			Assert.fail();
+		}
+		
+	}
+	
+	//---------------------Playwright Utilities-----------------
 	
 	public void closePlayright(ThreadLocal<ExtentTest> logger) {
 		
@@ -152,6 +158,8 @@ public class WrapperUtilities {
 			}
 		
 	}
+	
+	//-------------------I/O Utilities----------------------------
 	
 	public static String getPathCommon() throws URISyntaxException {
 		pathInsideProject = new File("").getAbsolutePath();
