@@ -1,5 +1,7 @@
 package Utilities;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -22,6 +24,7 @@ import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.model.service.util.ExceptionUtil;
 import com.microsoft.playwright.Browser;
+import com.microsoft.playwright.Browser.NewContextOptions;
 import com.microsoft.playwright.BrowserContext;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.Playwright;
@@ -32,7 +35,6 @@ import Keywords.TestReport;
 /**
  * Most Common Utilities to be used while writing tests
  * @author Kapil Madan
- *
  */
 public class WrapperUtilities {
 	
@@ -74,7 +76,14 @@ public class WrapperUtilities {
 	 
 	 public static void OpenBrowserContext(ThreadLocal<BrowserContext> browser_context, ThreadLocal<Browser> browser, ThreadLocal<ExtentTest> logger) {
 		 
-		   browser_context.set(getBrowser(browser, logger).newContext());
+		 	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		 	int width = (int) screenSize.getWidth();
+		 	int height = (int) screenSize.getHeight();
+		 	
+		 	NewContextOptions nc= new NewContextOptions();
+		 	nc.setViewportSize(width, height);
+		 	
+		   browser_context.set(getBrowser(browser, logger).newContext(nc));
 	 }
 	 
 	 public static void OpenTab(ThreadLocal<Page> tab, ThreadLocal<BrowserContext> browser_context, ThreadLocal<ExtentTest> logger) {
