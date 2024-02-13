@@ -27,7 +27,7 @@ public class DemoTest1 extends WrapperUtilities {
 		OpenTab(tab, browser_context, logger);
 		StartRecording(browser_context, logger);
 		setURL(logger);
-		
+	
 	}
 	
 	@AfterClass

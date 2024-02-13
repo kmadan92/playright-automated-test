@@ -12,6 +12,10 @@ public class DemoLocators extends WrapperUtilities {
 	 * page.locator("select#someid:has(option[value='India']") to automate select
 	 * page.locator("span:has-text('LogIn), span:has-text('SignIn)")  OR conditon with CSS based on text
 	 * page.locator("//input[@value='Log In'] | //input[@value='Log In']")   OR condition with xpath
+	 * page.locator("div.footer li a >> nth=0") //get 1st element using nth locator
+	 * page.locator("div.footer li a >> nth=-1") //get last element using nth locator
+	 * Locator row = page.locator(table#example tr)
+	 * row.locator(":scope", new Locator.LocatorOptions().setHasText("Ashton Cox")).locator(".select-checkbox").click  To scope in a row haveing text aston cox and clikon checkbox on that scoped row
 	 */
 	
 //	public static Locator username = getPage(logger).locator("//input[@name='username']");

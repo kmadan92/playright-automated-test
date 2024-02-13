@@ -29,7 +29,11 @@ import com.microsoft.playwright.Tracing;
 
 import Keywords.TestReport;
 
-
+/**
+ * Most Common Utilities to be used while writing tests
+ * @author Kapil Madan
+ *
+ */
 public class WrapperUtilities {
 	
 	public static ThreadLocal<ExtentTest> logger  =  new ThreadLocal<ExtentTest>();

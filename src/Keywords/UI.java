@@ -9,8 +9,19 @@ import com.microsoft.playwright.Page;
 
 import Utilities.WrapperUtilities;
 
+/**
+ * API's  for interaction with UI elements on a webpage
+ * @author Kapil Madan
+ *
+ */
 public class UI extends WrapperUtilities {
 	
+	/** 
+	 * Navigate to a URL
+	 * @param URL Complete URL to navigate
+	 * @param tab Current page object
+	 * @param logger Test logging object
+	 */
 	public static void NavigateToURL(String URL, ThreadLocal<Page> tab, ThreadLocal<ExtentTest> logger) {
 		
 		try {
@@ -27,6 +38,13 @@ public class UI extends WrapperUtilities {
 		
 	}
 	
+	/**
+	 * Click on a Web Element
+	 * @param locator Locator of UI on page
+	 * @param tab Current page object
+	 * @param logger Test logging object
+	 * @param Frame Frame is varargs. Define comma separated values for Frame. If no Frame is involved, leave it empty
+	 */
 	@SuppressWarnings("null")
 	public static void Click(String locator, ThreadLocal<Page> tab, ThreadLocal<ExtentTest> logger, String... Frame) {
 		
@@ -37,7 +55,7 @@ public class UI extends WrapperUtilities {
 		if(Frame.length>0)
 		{
 			
-			FrameLocator frame = switchToFrame(locator, tab, logger, Frame);
+			FrameLocator frame = switchToFrame(tab, logger, Frame);
 			frame.locator(locator).click();
 			
 			TestReport.Pass(logger, "Clicked Successfully to: "+frame.locator(locator).toString()+" -"+tab.get());
@@ -61,7 +79,16 @@ public class UI extends WrapperUtilities {
 		
 	}
 	
+	/**
+	 * Type to any Input field
+	 * @param locator Locator of UI on page
+	 * @param tab Current page object
+	 * @param logger Test logging object
+	 * @param Frame Frame is varargs. Define comma separated values for Frame. If no Frame is involved, leave it empty
+	 * @param text Input Text to fill the field
+	 */
 	public static void Type(String locator, String text, ThreadLocal<Page> tab, ThreadLocal<ExtentTest> logger, String... Frame) {
+		
 		
 		try {
 			
@@ -70,7 +97,7 @@ public class UI extends WrapperUtilities {
 		if(Frame.length>0)
 		{
 			
-			FrameLocator frame = switchToFrame(locator, tab, logger, Frame);
+			FrameLocator frame = switchToFrame(tab, logger, Frame);
 			frame.locator(locator).fill(text);
 			
 			TestReport.Pass(logger, "Typed Successfully to: "+frame.locator(locator).toString()+" -"+tab.get());
@@ -92,7 +119,16 @@ public class UI extends WrapperUtilities {
 		
 	}
 	
+	/**
+	 * get text from UI Element
+	 * @param locator Locator of UI on page
+	 * @param tab Current page object
+	 * @param logger Test logging object
+	 * @param Frame Frame is varargs. Define comma separated values for Frame. If no Frame is involved, leave it empty
+	 * @return Text of the UI element
+	 */
 	public static String getText(String locator, ThreadLocal<Page> tab, ThreadLocal<ExtentTest> logger, String... Frame) {
+	
 		
 		try {
 			
@@ -103,7 +139,7 @@ public class UI extends WrapperUtilities {
 		if(Frame.length>0)
 		{
 			
-			FrameLocator frame = switchToFrame(locator, tab, logger, Frame);
+			FrameLocator frame = switchToFrame(tab, logger, Frame);
 			loc = frame.locator(locator).textContent();
 			
 			TestReport.Pass(logger, "getText Successfully to: "+frame.locator(locator).toString()+" -"+tab.get());
@@ -129,11 +165,19 @@ public class UI extends WrapperUtilities {
 		
 	}
 	
-	public static FrameLocator switchToFrame(String locator, ThreadLocal<Page> tab, ThreadLocal<ExtentTest> logger, String... Frame) {
+	/**
+	 * Switch to Frame
+	 * @param tab Current page object
+	 * @param logger Test logging object
+	 * @param Frame Frame is varargs. Define comma separated values for Frame. If no Frame is involved, leave it empty
+	 * @return FrameLocator, which is final final frame inside which UI element resides
+	 */
+	public static FrameLocator switchToFrame(ThreadLocal<Page> tab, ThreadLocal<ExtentTest> logger, String... Frame) {
+		
 		
 		try {
 			
-			TestReport.Log(logger, "No. of Frames found for locator: "+locator+" is: "+Frame.length+" -"+tab.get());
+			TestReport.Log(logger, "No. of Frames found is: "+Frame.length+" -"+tab.get());
 			
 			FrameLocator frame = tab.get().frameLocator(Frame[0]);
 			
@@ -154,6 +198,57 @@ public class UI extends WrapperUtilities {
 			TestReport.Fail(logger, "Failed to switchToFrame from frames defined as: \n"+Frame.toString()+" -"+tab.get());
 			Assert.fail();
 			return null;
+		}
+		
+	}
+	
+	/**
+	 * Handle a Alert or Prompt on a Web Page
+	 * @param text When text=accept or cancel, alert will be treated as accept/cancel alert. When text = some text, alert will be treated as prompt
+	 * @param tab Current page object
+	 * @param logger Test logging object
+	 */
+	public static void actionOnAlert(String text, ThreadLocal<Page> tab, ThreadLocal<ExtentTest> logger) {
+		
+		try {
+			
+			TestReport.Log(logger, "Navigating to Alert on Page"+" -"+tab.get());
+			
+			if(text.equalsIgnoreCase("accept"))
+			{
+				getTab(tab, logger).onceDialog(dialog ->{
+				String textOnAlert = dialog.message();
+				TestReport.Log(logger, "Text on Alert says: "+textOnAlert);
+				dialog.accept();
+				TestReport.Pass(logger, "Alert Accepted"+" -"+tab.get());
+			});
+			}
+			else if(text.equalsIgnoreCase("cancel"))
+			{
+				getTab(tab, logger).onceDialog(dialog ->{
+				String textOnAlert = dialog.message();
+				TestReport.Log(logger, "Text on Alert says: "+textOnAlert);
+				dialog.dismiss();
+				TestReport.Pass(logger, "Alert Dismissed"+" -"+tab.get());
+				});
+			}
+			else
+			{
+				getTab(tab, logger).onceDialog(dialog ->{
+				String textOnAlert = dialog.message();
+				TestReport.Log(logger, "Text on Alert says: "+textOnAlert);
+				dialog.accept(text);
+				TestReport.Pass(logger, "Prompt Passed to Alert: "+text+" -"+tab.get());
+				});
+			}
+		
+		
+		}catch(Exception e) {
+			
+			TestReport.Log(logger, ExceptionUtil.getStackTrace(e));
+			TestReport.Fail(logger, "actionOnAlert failed"+" -"+tab.get());
+			Assert.fail();
+			
 		}
 		
 	}
