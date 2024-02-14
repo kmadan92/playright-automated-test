@@ -256,6 +256,13 @@ public class UI extends WrapperUtilities {
 		
 	}
 	
+	/**
+	 * Downloading a file. Process will wait until full download is completed
+	 * @param locator Locator of UI on page clicking on which downloades the file
+	 * @param tab Current page object
+	 * @param logger Test logging object
+	 * @param Frame Frame is varargs. Define comma separated values for Frame. If no Frame is involved, leave it empty
+	 */
 	public static void ClickAndDownload(String locator, ThreadLocal<Page> tab, ThreadLocal<ExtentTest> logger, String ...Frame) {
 		
 		try {
