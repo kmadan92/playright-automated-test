@@ -37,7 +37,7 @@ public class createTestNGXML {
 	{
 		
 		String dir = System.getProperty("user.dir");
-		File inputFile=new File(dir+"/" + "Config/" + "Executor.xls");
+		File inputFile=new File(dir+System.getProperty("file.separator")+ "Config"+System.getProperty("file.separator")+"Executor.xls");
 		Map<String,String> sheetData=new HashMap<String,String>();
 		Map<Integer,String> ClassMap=new HashMap<Integer,String>();
 		Map<Integer,String> FunctionMap=new HashMap<Integer,String>();
@@ -158,7 +158,7 @@ public class createTestNGXML {
 			
 			document.appendChild(rootElementSuite);
 			
-			FileWriter fstream = new FileWriter(dir+"/testng.xml");
+			FileWriter fstream = new FileWriter(dir+System.getProperty("file.separator")+"testng.xml");
 			BufferedWriter out = new BufferedWriter(fstream);
 			
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();

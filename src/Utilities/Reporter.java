@@ -58,7 +58,7 @@ public class Reporter extends WrapperUtilities implements ITestListener  {
 	public ExtentReports getReport() {
 		 
 	 	ExtentReports extentrep = new ExtentReports();
-		ExtentSparkReporter spark = new ExtentSparkReporter(System.getProperty("user.dir")+"/target/surefire-reports/TestReport.html");
+		ExtentSparkReporter spark = new ExtentSparkReporter(System.getProperty("user.dir")+System.getProperty("file.separator")+"target"+System.getProperty("file.separator")+"surefire-reports"+System.getProperty("file.separator")+"TestReport.html");
 		extentrep.attachReporter(spark);
 		extentrep.setSystemInfo("QE Engineer", "Kapil Madan");
 		extentrep.setSystemInfo("Browser", System.getProperty("Browser"));

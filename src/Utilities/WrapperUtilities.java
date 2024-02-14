@@ -44,7 +44,7 @@ public class WrapperUtilities {
 	public static ThreadLocal<Browser> browser = new ThreadLocal<Browser>();;
 	public static ThreadLocal<BrowserContext> browser_context  =  new ThreadLocal<>();
 	public static ThreadLocal<Page> tab  =  new ThreadLocal<>();
-	public static String TracesDirectory = System.getProperty("user.dir")+"/Traces";
+	public static String TracesDirectory = System.getProperty("user.dir")+System.getProperty("file.separator")+"Traces";
 	public static ThreadLocal<String> URL  = new ThreadLocal<String>();
 	public static String pathInsideProject;
 	public static ThreadLocal<String> threadDataSheetName  = new ThreadLocal<String>();
@@ -209,7 +209,7 @@ public class WrapperUtilities {
 			try {
 				String path = getPathCommon();
 				ThreadLocal<FileInputStream> file = new ThreadLocal<FileInputStream>();
-				file.set( new FileInputStream(new File(path + "\\Datafiles\\" + FileName)));
+				file.set( new FileInputStream(new File(path +System.getProperty("file.separator")+ "Datafiles"+System.getProperty("file.separator")+FileName)));
 
 				ThreadLocal<XSSFWorkbook> workbook = new ThreadLocal<XSSFWorkbook>();
 				workbook.set(new XSSFWorkbook(file.get()));
@@ -252,7 +252,7 @@ public class WrapperUtilities {
 
 					String path = getPathCommon();
 					ThreadLocal<FileInputStream> file = new ThreadLocal<FileInputStream>();
-					file.set( new FileInputStream(new File(path + "\\Datafiles\\" + FileName)));
+					file.set( new FileInputStream(new File(path +System.getProperty("file.separator")+"Datafiles"+System.getProperty("file.separator")+FileName)));
 
 					ThreadLocal<XSSFWorkbook> workbook = new ThreadLocal<XSSFWorkbook>();
 					workbook.set(new XSSFWorkbook(file.get()));
@@ -277,7 +277,7 @@ public class WrapperUtilities {
 						cellA1.get().setCellValue(Value);
 					} catch (Exception e) {
 					}
-					FileOutputStream out = new FileOutputStream(new File(path + "//Datafiles//" + FileName));
+					FileOutputStream out = new FileOutputStream(new File(path+System.getProperty("file.separator")+"Datafiles"+System.getProperty("file.separator")+FileName));
 
 					workbook.get().write(out);
 					out.close();
