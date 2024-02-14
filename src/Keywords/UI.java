@@ -1,9 +1,12 @@
 package Keywords;
 
+import java.nio.file.Paths;
+
 import org.testng.Assert;
 
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.model.service.util.ExceptionUtil;
+import com.microsoft.playwright.Download;
 import com.microsoft.playwright.FrameLocator;
 import com.microsoft.playwright.Page;
 
@@ -247,6 +250,51 @@ public class UI extends WrapperUtilities {
 			
 			TestReport.Log(logger, ExceptionUtil.getStackTrace(e));
 			TestReport.Fail(logger, "actionOnAlert failed"+" -"+tab.get());
+			Assert.fail();
+			
+		}
+		
+	}
+	
+	public static void ClickAndDownload(String locator, ThreadLocal<Page> tab, ThreadLocal<ExtentTest> logger, String ...Frame) {
+		
+		try {
+			
+			TestReport.Log(logger, "Starting Download......"+" -"+tab.get());
+			
+			Download download;
+			
+			if(Frame.length>0)
+			{
+				
+				FrameLocator frame = switchToFrame(tab, logger, Frame);
+				frame.locator(locator).click();
+				
+				download = tab.get().waitForDownload(() -> {
+					
+					frame.locator(locator).click();
+					
+				});
+				
+			}
+			else
+			{
+					download = tab.get().waitForDownload(() -> {
+					
+						tab.get().click(locator);
+					
+				});
+				
+			}
+			
+			download.saveAs(Paths.get(System.getProperty("user.dir")+System.getProperty("file.separator")+"Downloads"+System.getProperty("file.separator"), download.suggestedFilename()));
+		
+			TestReport.Pass(logger, "Download Completed. File is saved at: "+download.path().toString()+" -"+tab.get());
+		
+		}catch(Exception e) {
+			
+			TestReport.Log(logger, ExceptionUtil.getStackTrace(e));
+			TestReport.Fail(logger, "ClickAndDownload failed"+" -"+tab.get());
 			Assert.fail();
 			
 		}
