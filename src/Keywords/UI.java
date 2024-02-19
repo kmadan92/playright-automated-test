@@ -377,7 +377,4 @@ public class UI extends WrapperUtilities {
 		}
 		
 	}
-	
-	
-
 	}
