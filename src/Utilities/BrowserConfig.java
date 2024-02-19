@@ -10,9 +10,8 @@ import com.microsoft.playwright.Playwright;
 public class BrowserConfig extends WrapperUtilities {
 	
 	
-	public static Browser getBrowser( ThreadLocal<ExtentTest> logger) {
+	public static Browser setupBrowser( ThreadLocal<Playwright> playwright, ThreadLocal<ExtentTest> logger) {
 		
-		playwright.set(Playwright.create());
 		LaunchOptions lp = new LaunchOptions();
 		
 		String headless = System.getProperty("HeadlessExecution");
@@ -28,23 +27,23 @@ public class BrowserConfig extends WrapperUtilities {
 			
 		if(BrowserType.equalsIgnoreCase("Chrome")){
 			lp.setChannel("chrome");
-			browser.set(playwright.get().chromium().launch(lp));
+			browser.set(getPlaywright(playwright, logger).chromium().launch(lp));
 			
 		}
 		else if(BrowserType.equalsIgnoreCase("Edge")) {
 
 			lp.setChannel("msedge");
-			browser.set(playwright.get().chromium().launch(lp));
+			browser.set(getPlaywright(playwright, logger).chromium().launch(lp));
 			
 		}
 		else if(BrowserType.equalsIgnoreCase("Firefox")) {
 
-			browser.set(playwright.get().firefox().launch(lp));
+			browser.set(getPlaywright(playwright, logger).firefox().launch(lp));
 			
 		}
 		else if(BrowserType.equalsIgnoreCase("Safari")) {
 
-			browser.set(playwright.get().webkit().launch(lp));
+			browser.set(getPlaywright(playwright, logger).webkit().launch(lp));
 			
 		}
 		else {

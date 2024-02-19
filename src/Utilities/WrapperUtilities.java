@@ -69,9 +69,9 @@ public class WrapperUtilities {
 		
 	}
 	 
-	 public static void OpenBrowser(ThreadLocal<Browser> browser, ThreadLocal<ExtentTest> logger) {
+	 public static void OpenBrowser(ThreadLocal<Playwright> playwright, ThreadLocal<Browser> browser, ThreadLocal<ExtentTest> logger) {
 		 
-		   browser.set(BrowserConfig.getBrowser(logger));
+		   browser.set(BrowserConfig.setupBrowser(playwright, logger));
 	 }
 	 
 	 public static void OpenBrowserContext(ThreadLocal<BrowserContext> browser_context, ThreadLocal<Browser> browser, ThreadLocal<ExtentTest> logger) {
@@ -93,17 +93,17 @@ public class WrapperUtilities {
 	 
 	 public static void CloseBrowser(ThreadLocal<Browser> browser, ThreadLocal<ExtentTest> logger) {
 		 
-		   browser.get().close();
+		   getBrowser(browser, logger).close();
 	 }
 	 
 	 public static void CloseBrowserContext(ThreadLocal<BrowserContext> browser_context, ThreadLocal<ExtentTest> logger) {
 		 
-		   browser_context.get().close();
+		   getBrowserContext(browser_context, logger).close();
 	 }
 	 
 	 public static void CloseTab(ThreadLocal<Page> tab, ThreadLocal<ExtentTest> logger) {
 		 
-		   tab.get().close();
+		   getTab(tab, logger).close();
 	 }
 	
 	public String getURL(ThreadLocal<ExtentTest> logger) {
@@ -139,6 +139,30 @@ public class WrapperUtilities {
 	}
 	
 	//---------------------Playwright Utilities-----------------
+	
+	/**
+	 * Get Playwright Object
+	 * @author Kapil Madan
+	 * @param playwright Playwright Object
+	 * @param logger Test logging Object
+	 * @return Playwright Object
+	 */
+	 public static Playwright getPlaywright(ThreadLocal<Playwright> playwright, ThreadLocal<ExtentTest> logger) {
+			
+			return playwright.get();
+			
+		}
+	 
+	 /**
+	  * Create new Playwright Server
+	  * @author Kapil Madan
+	  * @param playwright Playwright Object
+	  * @param logger Test logging Object
+	  */
+	 public static void setupPlaywright(ThreadLocal<Playwright> playwright, ThreadLocal<ExtentTest> logger) {
+			 
+		 	playwright.set(Playwright.create());
+		 }
 	
 	public void closePlayright(ThreadLocal<ExtentTest> logger) {
 		

@@ -4,7 +4,6 @@ import org.testng.ITestContext;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import Keywords.UI;
@@ -14,15 +13,11 @@ import Utilities.WrapperUtilities;
 public class DemoTest1 extends WrapperUtilities {
 	
 	
-	@BeforeClass
-	public void BeforeClass_DemoTest1() {
-		
-		
-	}
-	
 	@BeforeMethod
 	public void BeforeMethod_DemoTest1(ITestContext test) {
-		OpenBrowser(browser, logger);
+		
+		setupPlaywright(playwright, logger);
+		OpenBrowser(playwright, browser, logger);
 		OpenBrowserContext(browser_context, browser, logger);
 		OpenTab(tab, browser_context, logger);
 		StartRecording(browser_context, logger);
