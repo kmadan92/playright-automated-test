@@ -260,7 +260,7 @@ public class WrapperUtilities {
 	 * @author Kapil Madan
 	 * @return API Request Context Object
 	 */
-	public APIRequestContext getAPIRequestContext(ThreadLocal<APIRequestContext> api_request_context, ThreadLocal<ExtentTest> logger)
+	public static APIRequestContext getAPIRequestContext(ThreadLocal<APIRequestContext> api_request_context, ThreadLocal<ExtentTest> logger)
 	{
 		return api_request_context.get();
 	}

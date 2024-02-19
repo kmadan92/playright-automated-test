@@ -1,5 +1,7 @@
 package Tests;
 
-public class DemoTest2 {
+import Utilities.WrapperUtilities;
+
+public class DemoTest2 extends WrapperUtilities {
 
 }
