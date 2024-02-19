@@ -25,7 +25,8 @@ public class UI extends WrapperUtilities {
 	 * Navigate to a URL
 	 * @param URL Complete URL to navigate
 	 * @param tab Current page object
-	 * @param logger Test logging object
+	 * @author Kapil Madan 
+     * @param logger Test logging object
 	 */
 	public static void NavigateToURL(String URL, ThreadLocal<Page> tab, ThreadLocal<ExtentTest> logger) {
 		
@@ -47,7 +48,8 @@ public class UI extends WrapperUtilities {
 	 * Click on a Web Element
 	 * @param locator Locator of UI on page
 	 * @param tab Current page object
-	 * @param logger Test logging object
+	 * @author Kapil Madan 
+     * @param logger Test logging object
 	 * @param Frame Frame is varargs. Define comma separated values for Frame. If no Frame is involved, leave it empty
 	 */
 	@SuppressWarnings("null")
@@ -88,7 +90,8 @@ public class UI extends WrapperUtilities {
 	 * Type to any Input field
 	 * @param locator Locator of UI on page
 	 * @param tab Current page object
-	 * @param logger Test logging object
+	 * @author Kapil Madan 
+     * @param logger Test logging object
 	 * @param Frame Frame is varargs. Define comma separated values for Frame. If no Frame is involved, leave it empty
 	 * @param text Input Text to fill the field
 	 */
@@ -128,7 +131,8 @@ public class UI extends WrapperUtilities {
 	 * get text from UI Element
 	 * @param locator Locator of UI on page
 	 * @param tab Current page object
-	 * @param logger Test logging object
+	 * @author Kapil Madan 
+     * @param logger Test logging object
 	 * @param Frame Frame is varargs. Define comma separated values for Frame. If no Frame is involved, leave it empty
 	 * @return Text of the UI element
 	 */
@@ -173,7 +177,8 @@ public class UI extends WrapperUtilities {
 	/**
 	 * Switch to Frame
 	 * @param tab Current page object
-	 * @param logger Test logging object
+	 * @author Kapil Madan 
+     * @param logger Test logging object
 	 * @param Frame Frame is varargs. Define comma separated values for Frame. If no Frame is involved, leave it empty
 	 * @return FrameLocator, which is final final frame inside which UI element resides
 	 */
@@ -211,7 +216,8 @@ public class UI extends WrapperUtilities {
 	 * Handle a Alert or Prompt on a Web Page
 	 * @param text When text=accept or cancel, alert will be treated as accept/cancel alert. When text = some text, alert will be treated as prompt
 	 * @param tab Current page object
-	 * @param logger Test logging object
+	 * @author Kapil Madan 
+     * @param logger Test logging object
 	 */
 	public static void actionOnAlert(String text, ThreadLocal<Page> tab, ThreadLocal<ExtentTest> logger) {
 		
@@ -262,7 +268,8 @@ public class UI extends WrapperUtilities {
 	 * Downloading a file. Process will wait until full download is completed
 	 * @param locator Locator of UI on page clicking on which downloades the file
 	 * @param tab Current page object
-	 * @param logger Test logging object
+	 * @author Kapil Madan 
+     * @param logger Test logging object
 	 * @param Frame Frame is varargs. Define comma separated values for Frame. If no Frame is involved, leave it empty
 	 */
 	public static void ClickAndDownload(String locator, ThreadLocal<Page> tab, ThreadLocal<ExtentTest> logger, String ...Frame) {
@@ -316,7 +323,8 @@ public class UI extends WrapperUtilities {
 	 * @param path Path Class object having all paths to files to be uploaded
 	 * @param type type should be true if the html attribute of UI web element which opens file manager is of type='file' else type should be false.
 	 * @param tab Current page object
-	 * @param logger Test logging object
+	 * @author Kapil Madan 
+     * @param logger Test logging object
 	 * @param Frame Frame is varargs. Define comma separated values for Frame. If no Frame is involved, leave it empty
 	 */
 	public static void UploadFile(String locator, Path path, Boolean type, ThreadLocal<Page> tab, ThreadLocal<ExtentTest> logger, String ...Frame) {
@@ -366,7 +374,7 @@ public class UI extends WrapperUtilities {
 				
 			}
 		
-			TestReport.Pass(logger, "Upload Completed. Files uploaded are: "+" -"+getTab(tab,logger));
+			TestReport.Pass(logger, "Upload Completed.  "+" -"+getTab(tab,logger));
 		
 		}catch(Exception e) {
 			
@@ -374,6 +382,89 @@ public class UI extends WrapperUtilities {
 			TestReport.Fail(logger, "UploadFile failed"+" -"+getTab(tab,logger));
 			Assert.fail();
 			
+		}
+		
+	}
+	
+	/**
+	 * Wait for a new tab to get opened after clicking on UI element
+	 * @param locator Locator of UI on page which opens new tab on clicking
+	 * @param tab Current page object
+	 * @author Kapil Madan 
+     * @param logger Test logging object
+	 * @param Frame Frame Frame is varargs. Define comma separated values for Frame. If no Frame is involved, leave it empty
+	 * @return New Tab Object
+	 */
+	public static Page ClickAndWaitForNewtab(String locator, ThreadLocal<Page> tab, ThreadLocal<ExtentTest> logger, String ...Frame) {
+		
+		try {
+			
+			TestReport.Log(logger, "Opening New tab......"+" -"+getTab(tab,logger));
+			
+			Page new_tab;
+			
+			if(Frame.length>0)
+			{
+			
+				new_tab = tab.get().waitForPopup(() -> {
+					FrameLocator frame = switchToFrame(tab, logger, Frame);
+					frame.locator(locator).click();
+				});
+							
+			}
+			else
+			{
+				new_tab = tab.get().waitForPopup(() -> {
+					
+					getTab(tab, logger).click(locator);
+				});
+			
+			}
+			
+				
+			
+			TestReport.Pass(logger, "New tab opened successfully after clicking on: "+locator+" -"+getTab(tab,logger));
+			
+			return new_tab;
+		
+		}catch(Exception e) {
+			
+			TestReport.Log(logger, ExceptionUtil.getStackTrace(e));
+			TestReport.Fail(logger, "ClickAndWaitForNewtab failed"+" -"+getTab(tab,logger));
+			Assert.fail();
+			return null;
+		}
+		
+	}
+	
+	/**
+	 * Open a new blank tab
+	 * @param tab Current page object
+	 * @author Kapil Madan
+	 * @param logger Test logging object
+	 * @return Blank Page Object
+	 */
+	public static Page OpenNewTab(ThreadLocal<Page> tab, ThreadLocal<ExtentTest> logger) {
+		
+		try {
+			
+			TestReport.Log(logger, "Opening New blank tab......"+" -"+getTab(tab,logger));
+			
+			Page new_tab = tab.get().waitForPopup(() -> {
+				
+				tab.get().click("a[target='_blank']");
+			});
+		
+			TestReport.Pass(logger, "Blank Tab opened successfully "+" -"+getTab(tab,logger));
+			
+			return new_tab;
+		
+		}catch(Exception e) {
+			
+			TestReport.Log(logger, ExceptionUtil.getStackTrace(e));
+			TestReport.Fail(logger, "OpenNewTab failed"+" -"+getTab(tab,logger));
+			Assert.fail();
+			return null;
 		}
 		
 	}
