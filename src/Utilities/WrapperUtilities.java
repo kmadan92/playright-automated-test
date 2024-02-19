@@ -23,6 +23,8 @@ import org.testng.Assert;
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.model.service.util.ExceptionUtil;
+import com.microsoft.playwright.APIRequest;
+import com.microsoft.playwright.APIRequestContext;
 import com.microsoft.playwright.Browser;
 import com.microsoft.playwright.Browser.NewContextOptions;
 import com.microsoft.playwright.BrowserContext;
@@ -44,6 +46,8 @@ public class WrapperUtilities {
 	public static ThreadLocal<Browser> browser = new ThreadLocal<Browser>();;
 	public static ThreadLocal<BrowserContext> browser_context  =  new ThreadLocal<>();
 	public static ThreadLocal<Page> tab  =  new ThreadLocal<>();
+	public static ThreadLocal<APIRequest> api_request  =  new ThreadLocal<>();
+	public static ThreadLocal<APIRequestContext> request =  new ThreadLocal<>();
 	public static String TracesDirectory = System.getProperty("user.dir")+System.getProperty("file.separator")+"Traces";
 	public static ThreadLocal<String> URL  = new ThreadLocal<String>();
 	public static String pathInsideProject;
@@ -209,6 +213,56 @@ public class WrapperUtilities {
 				e.printStackTrace();
 			}
 		
+	}
+	
+	//----------------------REST Utilities--------------------------
+	
+	/**
+	 * Set API Request Object
+	 * @param playwright Playwright Object
+	 * @param api_request API Request Object
+	 * @param logger Test logging Object
+	 * @author Kapil Madan
+	 */
+	public void setAPIRequest(ThreadLocal<Playwright> playwright, ThreadLocal<APIRequest> api_request, ThreadLocal<ExtentTest> logger)
+	{
+		api_request.set(getPlaywright(playwright, logger).request());
+	}
+	
+	/**
+	 * Get API Request Object
+	 * @param api_request API Request Object
+	 * @param logger Test logging Object
+	 * @author Kapil Madan
+	 * @return API Request Object
+	 */
+	public APIRequest getAPIRequest(ThreadLocal<APIRequest> api_request, ThreadLocal<ExtentTest> logger)
+	{
+		return api_request.get();
+	}
+	
+	/**
+	 * Set API Request Context Object
+	 * @param api_request_context API Request Context Object
+	 * @param api_request API Request Object
+	 * @param logger Test logging Object
+	 * @author Kapil Madan
+	 */
+	public void setAPIRequestContext(ThreadLocal<APIRequestContext> api_request_context, ThreadLocal<APIRequest> api_request, ThreadLocal<ExtentTest> logger)
+	{
+		api_request_context.set(getAPIRequest(api_request, logger).newContext()); 
+	}
+	
+	/**
+	 * Get API Request Context Object
+	 * @param api_request_context API Request Context Object
+	 * @param logger Test logging Object
+	 * @author Kapil Madan
+	 * @return API Request Context Object
+	 */
+	public APIRequestContext getAPIRequestContext(ThreadLocal<APIRequestContext> api_request_context, ThreadLocal<ExtentTest> logger)
+	{
+		return api_request_context.get();
 	}
 	
 	//-------------------I/O Utilities----------------------------
