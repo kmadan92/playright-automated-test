@@ -39,9 +39,11 @@ public class DemoTest2 extends WrapperUtilities {
 	@Test
 	public void test_1()
 	{
-		
-		RequestOptions options = RequestOptions.create().setHeader("Authorization", "bearer 3322910e72c996d3d648185bee9dcf056d0e65c6cf83a68ec4597b9da39bc1a2");
-		REST.post("https://gorest.co.in/public/v2/users", null, request, logger);
+		DemoUser user = DemoUser.builder().email("ahgsfg@gmail.com").gender("male").name("testuser").status("active").build();
+		RequestOptions options = RequestOptions.create()
+				.setHeader("Authorization", "bearer 3322910e72c996d3d648185bee9dcf056d0e65c6cf83a68ec4597b9da39bc1a2")
+				.setData(user);
+		REST.post("https://gorest.co.in/public/v2/users", options, request, logger);
 	}
 
 }

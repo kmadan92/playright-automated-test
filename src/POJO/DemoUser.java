@@ -9,8 +9,8 @@ import Utilities.WrapperUtilities;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
@@ -24,7 +24,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@ToString
+@EqualsAndHashCode(callSuper = false)
 public class DemoUser extends WrapperUtilities {
 
 @JsonProperty("id")

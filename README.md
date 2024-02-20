@@ -4,7 +4,7 @@
 
 You will need to setup lombok for your IDE. it can be done in simple steps demonstrated in given links below
 
- [Setup Lombok for Eclipse IDE](https://projectlombok.org/setup/eclipse)
+[Setup Lombok for Eclipse IDE](https://projectlombok.org/setup/eclipse)
 
 [Setup Lombok for IntellliJ](https://projectlombok.org/setup/intellij) 
 
@@ -28,3 +28,7 @@ You will need to setup lombok for your IDE. it can be done in simple steps demon
 - You can create a new annotation @Test in your new class and start writing your tests.
 - Leverage REST API's from Keywords/REST.java class to perform any HTTP call like GET, POST, PUT DELETE etc. 
 - Store all your POJO classes under POJO package. One Demo POJO class is created as an example. It leverages Jackson and Lombok annotations. - - You can choose your design pattern and build utilities using REST API's
+
+## Documentation
+
+For using UI and REST API's to develop tests, refer to Playwright Test Automation Framework Docs at "playwright-automated-test/docs/index.html"
