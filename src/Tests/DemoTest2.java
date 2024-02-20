@@ -5,7 +5,12 @@ import org.testng.ITestResult;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
+import com.microsoft.playwright.options.RequestOptions;
+
+import Keywords.REST;
+import POJO.DemoUser;
 import Utilities.WrapperUtilities;
 
 public class DemoTest2 extends WrapperUtilities {
@@ -29,6 +34,14 @@ public class DemoTest2 extends WrapperUtilities {
 	@AfterMethod
 	public void AfterMethod_DemoTest1(ITestResult result) {
 		
+	}
+	
+	@Test
+	public void test_1()
+	{
+		
+		RequestOptions options = RequestOptions.create().setHeader("Authorization", "bearer 3322910e72c996d3d648185bee9dcf056d0e65c6cf83a68ec4597b9da39bc1a2");
+		REST.post("https://gorest.co.in/public/v2/users", null, request, logger);
 	}
 
 }

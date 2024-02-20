@@ -3,4 +3,4 @@ Traces/*
 *.class
 *.DS_Store
 Downloads/*
-
+.settings/
