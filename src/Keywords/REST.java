@@ -30,7 +30,7 @@ public class REST extends WrapperUtilities {
 	}
 	
 	/**
-	 * 
+	 * HTTP GET Request with input as URL and Query Params
 	 * @param URL URL to GET
 	 * @param options Query Param in the form of RequestOption Object
 	 * @param api_request_context API Request Context Object
@@ -43,7 +43,7 @@ public class REST extends WrapperUtilities {
 		TestReport.Log(logger, "HTTP GET called on :"+URL+" with query params: "+options.toString());
 		
 		APIResponse response = getAPIRequestContext(api_request_context, logger).get(URL, options);
-		
+	
 		TestReport.Log(logger, "HTTP GET called successfully on :"+URL+" with query params: "+options.toString());
 		
 		return response;
