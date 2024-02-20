@@ -30,9 +30,9 @@ public class REST extends WrapperUtilities {
 	}
 	
 	/**
-	 * HTTP GET Request with input as URL and Query Params
+	 * HTTP GET Request with input as URL and Query Params, Headers
 	 * @param URL URL to GET
-	 * @param options Query Param in the form of RequestOption Object
+	 * @param options Object containing Query Param, Headers
 	 * @param api_request_context API Request Context Object
 	 * @param logger Test logging Object
 	 * @author Kapil Madan
@@ -44,7 +44,27 @@ public class REST extends WrapperUtilities {
 		
 		APIResponse response = getAPIRequestContext(api_request_context, logger).get(URL, options);
 	
-		TestReport.Log(logger, "HTTP GET called successfully on :"+URL+" with query params: "+options.toString());
+		TestReport.Log(logger, "HTTP GET called successfully on :"+URL+" with Query Paramns and Headers as: "+options.toString());
+		
+		return response;
+	}
+	
+	/**
+	 * HTTP POST Request with input as URL and Query Params, Headers
+	 * @param URL URL to POST
+	 * @param options Object containing Query Param, Headers and Body
+	 * @param api_request_context API Request Context Object
+	 * @param logger Test logging Object
+	 * @author Kapil Madan
+	 * @return APIResponse Object
+	 */
+	public static APIResponse post(String URL, RequestOptions options, ThreadLocal<APIRequestContext> api_request_context, ThreadLocal<ExtentTest> logger)
+	{
+		TestReport.Log(logger, "HTTP POST called on :"+URL+" with query params: "+options.toString());
+		
+		APIResponse response = getAPIRequestContext(api_request_context, logger).post(URL, options);
+	
+		TestReport.Log(logger, "HTTP POST called successfully on :"+URL+" with Query params, Headers and body as: "+options.toString());
 		
 		return response;
 	}
