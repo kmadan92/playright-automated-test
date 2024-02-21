@@ -4,6 +4,8 @@ import org.testng.Assert;
 
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.model.service.util.ExceptionUtil;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.microsoft.playwright.APIRequestContext;
 import com.microsoft.playwright.APIResponse;
 import com.microsoft.playwright.options.RequestOptions;
@@ -126,5 +128,92 @@ public class REST extends WrapperUtilities {
 		}
 		
 		TestReport.Pass(logger, "Expected status code found: "+code+" -"+getAPIRequestContext(request, logger));
+	}
+	
+	/**
+	 * Get Response body as Json Node Object
+	 * @param response APIResponse Object
+	 * @param logger Test logging Object
+	 * @author Kapil Madan
+	 * @return JsonNode Object
+	 */
+	public static JsonNode getJSONNodeResponse(APIResponse response, ThreadLocal<ExtentTest> logger)
+	{
+		TestReport.Log(logger, "Getting JSON Response Node  -"+getAPIRequestContext(request, logger));
+		
+		JsonNode node = null; 
+		
+		try {
+			ObjectMapper mapper = new ObjectMapper();
+			node = mapper.readTree(response.body());
+		}
+		catch(Exception e)
+		{
+			TestReport.Log(logger, ExceptionUtil.getStackTrace(e));
+			TestReport.Fail(logger, "getJSONNodeResponse failed"+" -"+getAPIRequestContext(request, logger));
+			Assert.fail();
+		}
+		
+		TestReport.Pass(logger, "JSON Response Node contains: "+node.toPrettyString()+" -"+getAPIRequestContext(request, logger));
+		return node;
+	}
+	
+	/**
+	 * Get Response body as text
+	 * @param response APIResponse Object
+	 * @param logger Test logging Object
+	 * @author Kapil Madan
+	 * @return Response body as string
+	 */
+	public static String getTextResponse(APIResponse response, ThreadLocal<ExtentTest> logger)
+	{
+		TestReport.Log(logger, "Getting Text Response  -"+getAPIRequestContext(request, logger));
+		
+		String res = null; 
+		
+		try {
+			
+			res = response.text();
+		}
+		catch(Exception e)
+		{
+			TestReport.Log(logger, ExceptionUtil.getStackTrace(e));
+			TestReport.Fail(logger, "getTextResponse failed"+" -"+getAPIRequestContext(request, logger));
+			Assert.fail();
+		}
+		
+		TestReport.Pass(logger, "Text Response Node contains: "+res+" -"+getAPIRequestContext(request, logger));
+		return res;
+	}
+	
+	/**
+	 * Deserialize API response to Java Class
+	 * @param response APIResponse Object
+	 * @param c Class to which deserilization should happen
+	 * @param logger Test logging Object
+	 * @author Kapil Madan
+	 * @return Class Object
+	 */
+	public static Object deserializeResponseToClass(APIResponse response, Class<?> c, ThreadLocal<ExtentTest> logger)
+	{
+		TestReport.Log(logger, "Getting Deserialized Class Object  -"+getAPIRequestContext(request, logger));
+		
+		Object Obj = null; 
+		
+		try {
+			
+			ObjectMapper mapper = new ObjectMapper();
+			Obj = mapper.readValue(getTextResponse(response, logger), c);
+		}
+		catch(Exception e)
+		{
+			TestReport.Log(logger, ExceptionUtil.getStackTrace(e));
+			TestReport.Fail(logger, "getTextResponse failed"+" -"+getAPIRequestContext(request, logger));
+			Assert.fail();
+		}
+		
+		TestReport.Pass(logger, "Deserialization of Class Object done successfully -"+getAPIRequestContext(request, logger));
+		
+		return Obj;
 	}
 }
