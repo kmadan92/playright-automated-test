@@ -78,7 +78,6 @@ public class UI extends WrapperUtilities {
 		
 		}catch(Exception e) {
 			
-			System.out.println(getTab(tab,logger));
 			TestReport.Log(logger, ExceptionUtil.getStackTrace(e));
 			TestReport.Fail(logger, "Clicking to "+locator+" failed"+" -"+getTab(tab,logger));
 			Assert.fail();

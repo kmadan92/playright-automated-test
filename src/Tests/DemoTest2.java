@@ -7,6 +7,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import com.microsoft.playwright.APIResponse;
 import com.microsoft.playwright.options.RequestOptions;
 
 import Keywords.REST;
@@ -43,7 +44,8 @@ public class DemoTest2 extends WrapperUtilities {
 		RequestOptions options = RequestOptions.create()
 				.setHeader("Authorization", "bearer 3322910e72c996d3d648185bee9dcf056d0e65c6cf83a68ec4597b9da39bc1a2")
 				.setData(user);
-		REST.post("https://gorest.co.in/public/v2/users", options, request, logger);
+		APIResponse response = REST.post("https://gorest.co.in/public/v2/users", options, request, logger);
+		REST.assertStatusCode(response, 201, logger);
 	}
 
 }
